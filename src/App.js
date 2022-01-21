@@ -9,27 +9,27 @@ function App() {
     {
       id: uuidv4(),
       title: "jan",
-      img: '/images/jan-brennenstuh.jpg'
+      img: './images/jan-brennenstuh.jpg'
     },
     {
       id: uuidv4(),
       title: "denys",
-      img: "/images/denys-nevozhai.jpg"
+      img: "./images/denys-nevozhai.jpg"
     },
     {
       id: uuidv4(),
       title: "claudio",
-      img: "/images/claudio-buttler.jpg"
+      img: "./images/claudio-buttler.jpg"
     },
     {
       id: uuidv4(),
       title: "vincent",
-      img: "/images/vincent-ledvina.jpg"
+      img: "./images/vincent-ledvina.jpg"
     },
     {
       id: uuidv4(),
       title: "sam",
-      img: "/images/sam-carter.jpg"
+      img: "./images/sam-carter.jpg"
     }
   ]
 
