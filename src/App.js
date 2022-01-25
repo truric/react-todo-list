@@ -5,31 +5,65 @@ import { v4 as uuidv4 } from 'uuid';
 const LOCAL_STORAGE_KEY = 'todoApp.todos'
 
 function App() {
+
+  //Weather API
+  const apiKey = '362f8e41642ed0cd7d5390ef59e4bc89'
+  const [weatherData, setWeatherData] = useState([{}])
+  const [city, setCity] = useState("")
+  const getWeather = (e) => {
+    if (e.key === "Enter") {
+      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`)
+      .then(response => response.json())
+      .then(data => {setWeatherData(data); setCity("")})
+    }
+  }
+
+  //Random Users API
+  const [userData, setUserData] = useState([{}])
+
+  const getUser = () => {
+    fetch(`https://randomuser.me/api/`)
+    .then(response => response.json())
+    .then(data => {setUserData(data)})
+  }
+
+  // const getUsers = (e) => {
+  //   fetch(`https://randomuser.me/api/`)
+  //   .then((response => response.json())
+  //   .then((response => {
+  //     this.setState({
+  //       items: response.results,
+  //       loading: true
+  //     })
+  //   }))
+  //   )
+  // }
+
   const pictures = [
     {
       id: uuidv4(),
       title: "jan",
-      img: './images/jan-brennenstuh.jpg'
+      img: '/images/jan-brennenstuh.jpg'
     },
     {
       id: uuidv4(),
       title: "denys",
-      img: "./images/denys-nevozhai.jpg"
+      img: "/images/denys-nevozhai.jpg"
     },
     {
       id: uuidv4(),
       title: "claudio",
-      img: "./images/claudio-buttler.jpg"
+      img: "/images/claudio-buttler.jpg"
     },
     {
       id: uuidv4(),
       title: "vincent",
-      img: "./images/vincent-ledvina.jpg"
+      img: "/images/vincent-ledvina.jpg"
     },
     {
       id: uuidv4(),
       title: "sam",
-      img: "./images/sam-carter.jpg"
+      img: "sam-carter.jpg"
     }
   ]
 
@@ -104,8 +138,43 @@ function App() {
           }}
         />
         <h4 style={{textAlign: 'center'}}>Change image on Click</h4>
-        
+        <p>{pictures[imageIndex].img}</p>
       </div>
+      <br></br>
+      <br></br>
+      <input 
+        placeholder="Enter City..."
+        onChange={e => setCity(e.target.value)}
+        value={city}
+        onKeyPress={getWeather}
+      />
+      
+      {typeof weatherData.main === 'undefined' ? (
+        <>
+          <p>Weather API: enter city name do display data</p>
+        </>
+      ) : (
+        <>
+          <p>{weatherData.name}</p>
+          <p>{Math.round(weatherData.main.temp)}ºC</p>
+          <p>{weatherData.weather[0].main}</p>
+          <p></p>
+        </>
+      )}
+
+      {weatherData.cod === "404" ? (
+        <p>City not found.</p>
+      ) : (
+        <>
+        </>
+      )}
+      <br></br>
+      <br></br>
+      <button 
+        className="btn btn-primary"
+        onClick={getUser}>Get User
+      </button>
+      <p>User: <br></br>{JSON.stringify(userData.results)}</p>
     </>
   )
 }
