@@ -14,7 +14,12 @@ function App() {
     if (e.key === "Enter") {
       fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`)
       .then(response => response.json())
-      .then(data => {setWeatherData(data); setCity("")})
+      .then(
+        data => {
+          setWeatherData(data); setCity("")}
+        ).catch((error) => {
+          console.log(error);
+        })
     }
   }
 
@@ -24,7 +29,7 @@ function App() {
   const getUser = () => {
     fetch(`https://randomuser.me/api/`)
     .then(response => response.json())
-    .then(data => {setUserData(data)})
+    .then(data => {setUserData(data.results)})
   }
 
   // const getUsers = (e) => {
@@ -63,7 +68,7 @@ function App() {
     {
       id: uuidv4(),
       title: "sam",
-      img: "sam-carter.jpg"
+      img: "/images/sam-carter.jpg"
     }
   ]
 
@@ -122,23 +127,23 @@ function App() {
       <div>{todos.filter(todo => !todo.complete).length} left to do</div>
       <br></br>
       <br></br>
-      <div className="frame" 
+      <div 
+        className="frame" 
         style={{
-          width: '50%',
-          border: '3px solid #ccc', 
-          background: '#eee', 
-          margin: 'auto', 
-          padding: '15px 10px'
-        }}>
-        <img onClick={changePicture} src={pictures[imageIndex].img} alt="Nature" 
-          style={{
-            width: '100%',
-            height: 'auto',
-            cursor: 'pointer'
-          }}
-        />
-        <h4 style={{textAlign: 'center'}}>Change image on Click</h4>
-        <p>{pictures[imageIndex].img}</p>
+        width: '50%',
+        border: '3px solid #ccc', 
+        background: '#eee', 
+        margin: 'auto', 
+        padding: '15px 10px'
+      }}>
+      <img onClick={changePicture} src={pictures[imageIndex].img} alt={pictures[imageIndex].img} 
+        style={{
+        width: '100%',
+        height: 'auto',
+        cursor: 'pointer'
+        }}
+      />
+      <h4 style={{textAlign: 'center'}}>Change image on Click</h4>
       </div>
       <br></br>
       <br></br>
@@ -174,7 +179,10 @@ function App() {
         className="btn btn-primary"
         onClick={getUser}>Get User
       </button>
-      <p>User: <br></br>{JSON.stringify(userData.results)}</p>
+      <p>Name: <br></br>{JSON.stringify(userData[0].name?.first)}</p>
+      <p>email: <br></br>{JSON.stringify(userData[0].email)}</p>
+      <p>Picture: <br></br>{JSON.stringify(userData[0].picture?.large)}</p>
+      <img imgurl={JSON.stringify(userData[0].picture?.large)} alt="alt" />
     </>
   )
 }
